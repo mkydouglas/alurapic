@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { PhotosModule } from './photos/photos.module';
 import { ErrosModule } from './erros/erros.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -12,9 +13,10 @@ import { ErrosModule } from './erros/erros.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     PhotosModule,
-    ErrosModule
+    ErrosModule,
+    CoreModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
