@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { PlatformDetectorService } from 'src/app/core/platform-detector/platform-detector.service';
@@ -10,6 +10,7 @@ import { PlatformDetectorService } from 'src/app/core/platform-detector/platform
 })
 export class SignInComponent implements OnInit {
     
+    fromUrl: string;
     loginForm: FormGroup;
     @ViewChild('userNameInput', null) userNameInput: ElementRef<HTMLInputElement>;
     
@@ -17,10 +18,12 @@ export class SignInComponent implements OnInit {
         private formBuilder: FormBuilder,
         private authService: AuthService,
         private router: Router,
-        private platformDetectorService: PlatformDetectorService
+        private platformDetectorService: PlatformDetectorService,
+        private activatedEoute: ActivatedRoute
     ) { }
 
     ngOnInit(): void { 
+        this.activatedEoute.queryParams.subscribe(params => this.fromUrl = params.fromUrl);
         this.loginForm = this.formBuilder.group({
             userName: ['', Validators.required],
             password: ['', Validators.required]
@@ -36,7 +39,12 @@ export class SignInComponent implements OnInit {
         this.authService
             .authenticate(userName, password)
             .subscribe(
-                () => this.router.navigate(['user', userName]),
+                () => {
+                    if(this.fromUrl) {
+                        this.router.navigateByUrl(this.fromUrl);
+                        console.log(this.fromUrl);                        
+                    }else {
+                    this.router.navigate(['user', userName])}},
                 err => {
                     this.loginForm.reset();
                     this.platformDetectorService.isPlataformBrowser() &&

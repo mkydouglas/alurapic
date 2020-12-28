@@ -7,6 +7,7 @@ import { NotFoundComponent } from './erros/not-found/not-found.component';
 import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
 import { AuthGuard } from './core/auth/auth.guard';
 import { PhotoDetailComponent } from './photos/photo-detail/photo-detail.component';
+import { GlobalErrorComponent } from './erros/global-error/global-error.component';
 
 
 const routes: Routes = [  
@@ -24,16 +25,40 @@ const routes: Routes = [
     component: PhotoListComponent,
     resolve: {
       photos: PhotoListResolver
+    },
+    data: {
+      title: 'Timeline'
     }
   },
-  { path: 'p/add', 
+  { 
+    path: 'p/add', 
     component: PhotoFormComponent, 
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Photo upload'
+    }
   },
-  { path: 'p/:photoId', 
-    component: PhotoDetailComponent
+  { 
+    path: 'p/:photoId', 
+    component: PhotoDetailComponent,
+    data: {
+      title: 'Photo detail'
+    }
   },
-  { path: 'not-found', component: NotFoundComponent },
+  { 
+    path: 'error', 
+    component: GlobalErrorComponent,
+    data: {
+      title: 'Error'
+    }
+  },
+  { 
+    path: 'not-found', 
+    component: NotFoundComponent,
+    data: {
+      title: 'Not Found'
+    }
+  },
   { path: '**', redirectTo: 'not-found' }
 ];
 

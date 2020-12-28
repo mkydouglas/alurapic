@@ -35,7 +35,7 @@ export class PhotoDetailComponent implements OnInit {
       .subscribe(
         () => {
           this.alertService.success("Photo removed")
-          this.router.navigate(['']);
+          this.router.navigate([''], {replaceUrl: true});
         },
         err => {
           this.alertService.warning("Could not delete the photo!");
